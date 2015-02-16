@@ -9,12 +9,18 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chadgolden.app.Controller">
    <children>
-      <VBox prefHeight="600.0" prefWidth="100.0" style="-fx-background-color: lightgray;" />
+      <VBox prefHeight="600.0" prefWidth="100.0" style="-fx-background-color: lightgray;">
+         <children>
+            <Button mnemonicParsing="false" text="Button" />
+         </children></VBox>
       <Canvas fx:id="canvas" height="500.0" layoutX="100.0" layoutY="27.0" width="500.0" />
-      <HBox layoutY="527.0" prefHeight="73.0" prefWidth="700.0" style="-fx-background-color: lightgray;" />
+      <HBox layoutY="527.0" prefHeight="73.0" prefWidth="700.0" style="-fx-background-color: lightgray;">
+         <children>
+            <Button mnemonicParsing="false" onAction="#buttonAction" text="Button" />
+            <Button mnemonicParsing="false" text="Blah" />
+         </children></HBox>
       <VBox layoutX="600.0" prefHeight="573.0" prefWidth="100.0" style="-fx-background-color: lightgray;" />
       <MenuBar prefHeight="25.0" prefWidth="700.0">
         <menus>
@@ -25,7 +31,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" onAction="#clearCanvas" text="Reset" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

@@ -43,6 +43,24 @@ public class Controller implements Initializable{
         }
     }
 
+    @FXML
+    private void clearCanvas() {
+        fillCanvasBackground(null);
+        drawCanvasGridLines(null);
+    }
+
+    @FXML
+    private void buttonAction() {
+        writePixel(4, 4, null);
+    }
+
+    @FXML
+    private void writePixel(int x, int y, Color pixelColor) {
+        if (pixelColor == null) { pixelColor = Color.YELLOW; }
+        canvas.getGraphicsContext2D().setFill(pixelColor);
+        canvas.getGraphicsContext2D().fillRect(x * 5.0, y * 5.0, 5.0, 5.0);
+    }
+
     /**
      * Finish process with exit code 0.
      */
