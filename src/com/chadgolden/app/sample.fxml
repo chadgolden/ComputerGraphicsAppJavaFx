@@ -21,6 +21,7 @@
                 <MenuItem mnemonicParsing="false" text="Circle" />
               </items>
             </MenuButton>
+            <RadioButton fx:id="dotRadio" mnemonicParsing="false" text="Dot" />
             <RadioButton fx:id="lineRadio" mnemonicParsing="false" onAction="#say" text="Line" />
             <RadioButton fx:id="circleRadio" mnemonicParsing="false" onAction="#say" text="Circle" />
          </children></VBox>
