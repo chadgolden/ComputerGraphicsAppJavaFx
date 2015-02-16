@@ -64,7 +64,7 @@ public class Controller implements Initializable{
         canvas.getGraphicsContext2D().setFill(fillColor);
         canvas.getGraphicsContext2D().fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
-
+//blah blah blah
     @FXML
     private void drawCanvasGridLines(Color strokeColor) {
         if (strokeColor == null) { strokeColor = Color.GRAY; }
