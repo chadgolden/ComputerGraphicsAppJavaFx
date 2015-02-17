@@ -1,5 +1,6 @@
 package com.chadgolden.drawing;
 
+import com.chadgolden.util.ComponentOptions;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
@@ -7,6 +8,12 @@ public class Circle extends Component {
 
     private int radius;
     private Color color;
+
+    public Circle(ComponentOptions componentOptions, int radius) {
+        super(componentOptions);
+        this.radius = radius;
+        draw();
+    }
 
     public Circle(Canvas parentComponent, int radius, Color color, int scale) {
         super(parentComponent, color, scale);

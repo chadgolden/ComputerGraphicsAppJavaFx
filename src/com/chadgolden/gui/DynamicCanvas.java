@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 /**
  * Created by Chad on 2/16/2015.
+ * @deprecated
  */
 public class DynamicCanvas extends Canvas {
 

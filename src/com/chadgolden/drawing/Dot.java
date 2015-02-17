@@ -1,5 +1,6 @@
 package com.chadgolden.drawing;
 
+import com.chadgolden.util.ComponentOptions;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
@@ -11,6 +12,13 @@ public class Dot extends Component {
     private int x;
     private int y;
 
+    public Dot(ComponentOptions componentOptions, int x, int y) {
+        super(componentOptions);
+        this.x = x;
+        this.y = y;
+        draw();
+    }
+
     public Dot(Canvas parentComponent, int x, int y, Color color, int scale) {
         super(parentComponent, color, scale);
         this.x = x;
@@ -21,5 +29,13 @@ public class Dot extends Component {
     @Override
     public void midpointScan() {
         writePixel(x, y);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
