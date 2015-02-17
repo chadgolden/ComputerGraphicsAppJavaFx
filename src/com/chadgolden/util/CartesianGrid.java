@@ -11,11 +11,11 @@ public class CartesianGrid {
     private CartesianGrid() { }
 
     public static int CanvasToCartesianX(int x) {
-        return x;
+        return x - 50;
     }
 
     public static int CanvasToCartesianY(int y) {
-        return -1 * y;
+        return 50 - y;
     }
 
 }

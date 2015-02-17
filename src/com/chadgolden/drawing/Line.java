@@ -38,6 +38,13 @@ public class Line extends Component {
         draw();
     }
 
+    public double getSlope() {
+        int deltaX = x1 - x0;
+        int deltaY = y1 - y0;
+        int slope = deltaY / deltaX;
+        return slope;
+    }
+
     @Override
     public void midpointScan() {
         int dx = x1 - x0;
@@ -48,11 +55,13 @@ public class Line extends Component {
         int x = x0;
         int y = y0;
         do {
+            // Needs cartesian style coordinates.
             //new Dot(parentComponent, x, y, color, scale);
-            new Dot(componentOptions, x, y);
+            new Dot(componentOptions, x, y, 0);
+            //new Dot(componentOptions, x, y);
             if (d <= 0) { // Choose E.
                 x += 1;
-                d+= incrementEast;
+                d += incrementEast;
             }
             else { // Choose NE.
                 x += 1;

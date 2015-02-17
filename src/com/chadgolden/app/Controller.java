@@ -1,6 +1,9 @@
 package com.chadgolden.app;
 
 import com.chadgolden.drawing.Dot;
+import com.chadgolden.drawing.Line;
+import com.chadgolden.drawing.Polygon;
+import com.chadgolden.util.CartesianGrid;
 import com.chadgolden.util.ComponentOptions;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -137,14 +140,21 @@ public class Controller implements Initializable {
 
     @FXML
     private void canvasClick() {
-        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED,
+        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent e) {
+                        int mouseX = (int)(e.getX()/scale);
+                        int mouseY = (int)(e.getY()/scale);
                        // new Dot(canvas, (int)(e.getX()/ scale), (int)(e.getY()/ scale), Color.YELLOW, (int) scale);
-                        new Dot(baseComponentOptions, (int)(e.getX() / scale), (int)(e.getY() / scale));
+                       // new Dot(baseComponentOptions, (int)(e.getX() / scale), (int)(e.getY() / scale));
                         //new Line(canvas, (int)(e.getX()/scale), (int)(e.getY()/scale), 50, 50, Color.YELLOW, (int)scale);
+                        Line line1 = new Line(baseComponentOptions, new Dot(baseComponentOptions, mouseX, mouseY, 0), new Dot(baseComponentOptions, 0, 0, 0));
+                        //System.out.println(line1.getSlope());
                         //new Circle(canvas, 20, Color.YELLOW, (int)scale);
+                        //Dot[] dots = new Dot[3];
+                        //new Polygon(baseComponentOptions, dots);
+                        //System.out.println(mouseX + "     " + mouseY);
                     }
                 });
     }
