@@ -13,14 +13,6 @@ public class Dot extends Component {
     private int x;
     private int y;
 
-
-    public Dot(ComponentOptions componentOptions, int x, int y, int flag) {
-        super(componentOptions);
-        this.x = CartesianGrid.CanvasToCartesianX(x);
-        this.y = CartesianGrid.CanvasToCartesianY(y);
-        draw();
-    }
-
     public Dot(ComponentOptions componentOptions, int x, int y) {
         super(componentOptions);
         this.x = x;
@@ -28,11 +20,22 @@ public class Dot extends Component {
         draw();
     }
 
+    public Dot(ComponentOptions componentOptions, int x, int y, int flag) {
+        super(componentOptions);
+        this.x = x;
+        this.y = y;
+    }
+
     public Dot(Canvas parentComponent, int x, int y, Color color, int scale) {
         super(parentComponent, color, scale);
         this.x = x;
         this.y = y;
         draw();
+    }
+
+    private void toCanvas() {
+        this.x = CartesianGrid.cartesianToCanvasX(this.x);
+        this.y = CartesianGrid.cartesianToCanvasY(this.y);
     }
 
     @Override

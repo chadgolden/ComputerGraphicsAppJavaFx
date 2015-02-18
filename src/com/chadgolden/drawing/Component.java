@@ -1,6 +1,7 @@
 package com.chadgolden.drawing;
 
 
+import com.chadgolden.util.CartesianGrid;
 import com.chadgolden.util.ComponentOptions;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
@@ -36,6 +37,9 @@ public abstract class Component {
     }
 
     public void writePixel(int x, int y) {
+        x = CartesianGrid.cartesianToCanvasX(x);
+        y = CartesianGrid.cartesianToCanvasY(y);
+        //System.out.println("X = " + x + "   Y = " + y);
         if (componentOptions.getColor() == null) { componentOptions.setColor(Color.WHITE); }
         componentOptions.getParentComponent().getGraphicsContext2D().setFill(componentOptions.getColor());
         componentOptions.getParentComponent().getGraphicsContext2D().fillRect(x * scale, y * scale, scale, scale);

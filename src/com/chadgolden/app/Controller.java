@@ -1,5 +1,6 @@
 package com.chadgolden.app;
 
+import com.chadgolden.drawing.Circle;
 import com.chadgolden.drawing.Dot;
 import com.chadgolden.drawing.Line;
 import com.chadgolden.drawing.Polygon;
@@ -124,7 +125,7 @@ public class Controller implements Initializable {
         if (strokeColor == null) { strokeColor = Color.GRAY; }
         canvas.getGraphicsContext2D().setStroke(strokeColor);
         for (double i = 0.5; i < canvas.getHeight(); i += scale) {
-            System.out.println(i + "                   " + (canvas.getHeight() / 2 + 0.5));
+            //System.out.println(i + "                   " + (canvas.getHeight() / 2 + 0.5));
             if (i == (canvas.getHeight() / 2 + 0.5) ) {
                 canvas.getGraphicsContext2D().setStroke(Color.TURQUOISE);
                 canvas.getGraphicsContext2D().strokeLine(i, 0.0, i, canvas.getHeight());
@@ -140,21 +141,16 @@ public class Controller implements Initializable {
 
     @FXML
     private void canvasClick() {
-        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
+        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent e) {
-                        int mouseX = (int)(e.getX()/scale);
-                        int mouseY = (int)(e.getY()/scale);
-                       // new Dot(canvas, (int)(e.getX()/ scale), (int)(e.getY()/ scale), Color.YELLOW, (int) scale);
-                       // new Dot(baseComponentOptions, (int)(e.getX() / scale), (int)(e.getY() / scale));
-                        //new Line(canvas, (int)(e.getX()/scale), (int)(e.getY()/scale), 50, 50, Color.YELLOW, (int)scale);
-                        Line line1 = new Line(baseComponentOptions, new Dot(baseComponentOptions, mouseX, mouseY, 0), new Dot(baseComponentOptions, 0, 0, 0));
-                        //System.out.println(line1.getSlope());
-                        //new Circle(canvas, 20, Color.YELLOW, (int)scale);
-                        //Dot[] dots = new Dot[3];
-                        //new Polygon(baseComponentOptions, dots);
-                        //System.out.println(mouseX + "     " + mouseY);
+                        int mouseX = CartesianGrid.canvasToCartesianX((int)(e.getX()/scale));
+                        int mouseY = CartesianGrid.canvasToCartesianY((int)(e.getY()/scale));
+                        Dot dot1 = new Dot(baseComponentOptions, mouseX, mouseY);
+                        Dot dot2 = new Dot(baseComponentOptions, 0, 0);
+                        new Line(baseComponentOptions, dot1, dot2);
+                        //new Circle(baseComponentOptions, 20);
                     }
                 });
     }

@@ -7,7 +7,6 @@ import javafx.scene.paint.Color;
 public class Circle extends Component {
 
     private int radius;
-    private Color color;
 
     public Circle(ComponentOptions componentOptions, int radius) {
         super(componentOptions);
@@ -43,14 +42,23 @@ public class Circle extends Component {
     }
 
     private void circleify(int x, int y) {
-        new Dot(parentComponent, x, y, color, scale);
-        new Dot(parentComponent, y, x, color, scale);
-        new Dot(parentComponent, y, -x, color, scale);
-        new Dot(parentComponent, x, -y, color, scale);
-        new Dot(parentComponent, -x, -y, color, scale);
-        new Dot(parentComponent, -y, -x, color, scale);
-        new Dot(parentComponent, -y, x, color, scale);
-        new Dot(parentComponent, -x, y, color, scale);
+//        new Dot(parentComponent, x, y, color, scale);
+//        new Dot(parentComponent, y, x, color, scale);
+//        new Dot(parentComponent, y, -x, color, scale);
+//        new Dot(parentComponent, x, -y, color, scale);
+//        new Dot(parentComponent, -x, -y, color, scale);
+//        new Dot(parentComponent, -y, -x, color, scale);
+//        new Dot(parentComponent, -y, x, color, scale);
+//        new Dot(parentComponent, -x, y, color, scale);
+
+        new Dot(componentOptions, x, y);
+        new Dot(componentOptions, y, x);
+        new Dot(componentOptions, y, -x);
+        new Dot(componentOptions, x, -y);
+        new Dot(componentOptions, -x, -y);
+        new Dot(componentOptions, -y, -x);
+        new Dot(componentOptions, -y, x);
+        new Dot(componentOptions, -x, y);
     }
 
 

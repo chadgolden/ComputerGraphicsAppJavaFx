@@ -17,6 +17,31 @@ public class Line extends Component {
         this.y0 = startDot.getY();
         this.x1 = endDot.getX();
         this.y1 = endDot.getY();
+        double slope = getSlope();
+        System.out.println(getSlope());
+        if (startDot.getX() < 0 && getSlope() < 1.0) {
+            this.x0 = startDot.getX();
+            this.y0 = startDot.getY();
+            this.x1 = endDot.getX();
+            this.y1 = endDot.getY();
+        } else if (startDot.getX() > 0 && getSlope() < 1.0) {
+            this.x0 = endDot.getX();
+            this.y0 = endDot.getY();
+            this.x1 = startDot.getX();
+            this.y1 = startDot.getY();
+        } else if (startDot.getX() < 0 && getSlope() >= 1.0) {
+            this.x0 = endDot.getX();
+            this.y0 = endDot.getY();
+            this.x1 = startDot.getX();
+            this.y1 = startDot.getY();
+        }
+        else {
+            this.x0 = startDot.getY();
+            this.y0 = startDot.getX();
+            this.x1 = endDot.getX();
+            this.y1 = endDot.getY();
+            System.out.println("Hi");
+        }
         draw();
     }
 
@@ -38,11 +63,23 @@ public class Line extends Component {
         draw();
     }
 
-    public double getSlope() {
+    public double getSlope(int x0, int x1, int y0, int y1) {
         int deltaX = x1 - x0;
         int deltaY = y1 - y0;
+
+        System.out.printf("(%d - %d) / (%d - %d) = \n", x1, x0, y1, y0);
+
+        if (deltaX == 0) return 0.0;
+
         int slope = deltaY / deltaX;
         return slope;
+    }
+
+    public double getSlope() {
+        int dx = x1 - x0;
+        int dy = y1 - y0;
+        if (dx == 0) { return 0.0; }
+        return dy/dx;
     }
 
     @Override
@@ -56,9 +93,12 @@ public class Line extends Component {
         int y = y0;
         do {
             // Needs cartesian style coordinates.
-            //new Dot(parentComponent, x, y, color, scale);
-            new Dot(componentOptions, x, y, 0);
-            //new Dot(componentOptions, x, y);
+            if (getSlope() >= 1.0) {
+                System.out.println("Hi loop");
+                new Dot(componentOptions, y, x);
+            } else {
+                new Dot(componentOptions, x, y);
+            }
             if (d <= 0) { // Choose E.
                 x += 1;
                 d += incrementEast;
