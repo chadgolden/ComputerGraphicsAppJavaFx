@@ -64,7 +64,9 @@
                </font>
             </ToggleButton>
             <Label layoutX="27.0" layoutY="14.0" text="Objects:" />
-            <ToggleButton fx:id="fillToggle" layoutX="13.0" layoutY="473.0" mnemonicParsing="false" text="Fill On/Off" />
+            <ToggleButton fx:id="fillToggle" layoutX="16.0" layoutY="411.0" mnemonicParsing="false" text="Fill On/Off" />
+            <Button layoutX="17.0" layoutY="445.0" mnemonicParsing="false" onAction="#clearCanvas" prefHeight="25.0" prefWidth="83.0" text="Clear" />
+            <Button layoutX="17.0" layoutY="478.0" mnemonicParsing="false" onAction="#closeApplication" prefHeight="25.0" prefWidth="83.0" text="Exit" />
          </children>
       </Pane>
       <Pane layoutX="600.0" layoutY="25.0" prefHeight="575.0" prefWidth="100.0" style="-fx-background-color: lightgray;">
