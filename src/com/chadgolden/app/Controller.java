@@ -141,14 +141,14 @@ public class Controller implements Initializable {
 
     @FXML
     private void canvasClick() {
-        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED,
+        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent e) {
                         int mouseX = CartesianGrid.canvasToCartesianX((int)(e.getX()/scale));
                         int mouseY = CartesianGrid.canvasToCartesianY((int)(e.getY()/scale));
-                        Dot dot1 = new Dot(baseComponentOptions, mouseX, mouseY);
-                        Dot dot2 = new Dot(baseComponentOptions, 0, 0);
+                        Dot dot2 = new Dot(baseComponentOptions, mouseX, mouseY);
+                        Dot dot1 = new Dot(baseComponentOptions, 0, 0);
                         new Line(baseComponentOptions, dot1, dot2);
                         //new Circle(baseComponentOptions, 20);
                     }
