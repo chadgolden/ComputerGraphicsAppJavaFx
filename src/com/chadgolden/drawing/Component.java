@@ -1,29 +1,16 @@
 package com.chadgolden.drawing;
 
-
-import com.chadgolden.util.CartesianGrid;
+import com.chadgolden.app.Controller;
 import com.chadgolden.util.ComponentOptions;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
 public abstract class Component {
 
-    protected Canvas parentComponent;
-    protected Color color;
-    protected int scale;
     protected ComponentOptions componentOptions;
 
     public Component(ComponentOptions componentOptions) {
         this.componentOptions = componentOptions;
-        this.parentComponent = componentOptions.getParentComponent();
-        this.color = componentOptions.getColor();
-        this.scale = (int)componentOptions.getScale();
-    }
-
-    public Component(Canvas parentComponent, Color color, int scale) {
-        this.parentComponent = parentComponent;
-        this.color = color;
-        this.scale = scale;
     }
 
     public abstract void midpointScan();
@@ -32,16 +19,12 @@ public abstract class Component {
         midpointScan();
     }
 
-    public Canvas getParentComponent() {
-        return parentComponent;
-    }
-
     public void writePixel(int x, int y) {
-        x = CartesianGrid.cartesianToCanvasX(x);
-        y = CartesianGrid.cartesianToCanvasY(y);
+        int dotSize = (int)componentOptions.getScale();
         if (componentOptions.getColor() == null) { componentOptions.setColor(Color.WHITE); }
         componentOptions.getParentComponent().getGraphicsContext2D().setFill(componentOptions.getColor());
-        componentOptions.getParentComponent().getGraphicsContext2D().fillRect(x * scale, y * scale, scale, scale);
+        componentOptions.getParentComponent().getGraphicsContext2D().fillRect(
+                x * dotSize, y * dotSize, dotSize, dotSize);
     }
 
 }

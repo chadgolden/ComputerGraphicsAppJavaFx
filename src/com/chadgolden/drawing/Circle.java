@@ -1,66 +1,52 @@
 package com.chadgolden.drawing;
 
 import com.chadgolden.util.ComponentOptions;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.paint.Color;
 
+/**
+ * Created by Chad on 2/18/2015.
+ */
 public class Circle extends Component {
 
+    private Dot center;
     private int radius;
 
-    public Circle(ComponentOptions componentOptions, int radius) {
+    public Circle(ComponentOptions componentOptions, Dot center, int radius) {
         super(componentOptions);
+        this.center = center;
         this.radius = radius;
-        draw();
-    }
-
-    public Circle(Canvas parentComponent, int radius, Color color, int scale) {
-        super(parentComponent, color, scale);
-        this.radius = radius;
-        this.color = color;
         draw();
     }
 
     @Override
     public void midpointScan() {
+        int f = 1 - radius;
+        int ddF_x = 0;
+        int ddF_y = -2 * radius;
         int x = 0;
         int y = radius;
-        double d = 5/4 - radius;
 
-        do {
-            circleify(x, y);
-            if (d < 0) {
-                d += 2.0 * x + 3.0;
-                x++;
-            }
-            else {
-                d += 2.0 * (x - y) + 5.0;
-                x++;
+        new Dot(componentOptions, center.getX(), center.getY() + radius);
+        new Dot(componentOptions, center.getX(), center.getY() - radius);
+        new Dot(componentOptions, center.getX() + radius, center.getY());
+        new Dot(componentOptions, center.getX() - radius, center.getY());
+
+        while (x < y) {
+            if (f >= 0) {
                 y--;
+                ddF_y += 2;
+                f += ddF_y;
             }
-        } while (x <= y);
+            x++;
+            ddF_x += 2;
+            f += ddF_x + 1;
+            new Dot(componentOptions, center.getX() + x, center.getY() + y);
+            new Dot(componentOptions, center.getX() - x, center.getY() + y);
+            new Dot(componentOptions, center.getX() + x, center.getY() - y);
+            new Dot(componentOptions, center.getX() - x, center.getY() - y);
+            new Dot(componentOptions, center.getX() + y, center.getY() + x);
+            new Dot(componentOptions, center.getX() - y, center.getY() + x);
+            new Dot(componentOptions, center.getX() + y, center.getY() - x);
+            new Dot(componentOptions, center.getX() - y, center.getY() - x);
+        }
     }
-
-    private void circleify(int x, int y) {
-//        new Dot(parentComponent, x, y, color, scale);
-//        new Dot(parentComponent, y, x, color, scale);
-//        new Dot(parentComponent, y, -x, color, scale);
-//        new Dot(parentComponent, x, -y, color, scale);
-//        new Dot(parentComponent, -x, -y, color, scale);
-//        new Dot(parentComponent, -y, -x, color, scale);
-//        new Dot(parentComponent, -y, x, color, scale);
-//        new Dot(parentComponent, -x, y, color, scale);
-
-        new Dot(componentOptions, x, y);
-        new Dot(componentOptions, y, x);
-        new Dot(componentOptions, y, -x);
-        new Dot(componentOptions, x, -y);
-        new Dot(componentOptions, -x, -y);
-        new Dot(componentOptions, -y, -x);
-        new Dot(componentOptions, -y, x);
-        new Dot(componentOptions, -x, y);
-    }
-
-
-
 }

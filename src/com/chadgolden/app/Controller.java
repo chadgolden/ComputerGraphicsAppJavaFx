@@ -1,13 +1,10 @@
 package com.chadgolden.app;
 
-import com.chadgolden.drawing.Circle;
-import com.chadgolden.drawing.Dot;
-import com.chadgolden.drawing.Line;
-import com.chadgolden.drawing.Polygon;
-import com.chadgolden.util.CartesianGrid;
+import com.chadgolden.drawing.*;
 import com.chadgolden.util.ComponentOptions;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -51,16 +48,42 @@ public class Controller implements Initializable {
     @FXML
     private ChoiceBox zoomBox;
 
+    @FXML
+    private ColorPicker colorPicker;
+
     /** Determines the scale and resolution of the canvas. */
-    private double scale;
+    private int dotSize;
 
     /** To contain base information (reference to canvas object, color, and scale. */
     private ComponentOptions baseComponentOptions;
 
+    private String nameOfSelectedComponent;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setUpCanvas(1.0);
+        setUpCanvas(5);
         setUpZoomBox();
+    }
+
+    /**
+     * Action when clicking the canvas.
+     */
+    @FXML
+    private void canvasClick() {
+        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        int mouseX = (int)(e.getX()/dotSize);
+                        int mouseY = (int)(e.getY()/dotSize);
+                        Dot origin = new Dot(baseComponentOptions, 25, 25, false);
+                        Dot mouse = new Dot(baseComponentOptions, mouseX, mouseY, false);
+                        new Line(baseComponentOptions, origin, mouse);
+//                        new NewCircle(baseComponentOptions, new Dot(baseComponentOptions, mouseX, mouseY, false), 5);
+//                        new Polygon(baseComponentOptions, new Dot[3]);
+                    }
+                });
+
     }
 
     private void setUpZoomBox() {
@@ -70,33 +93,34 @@ public class Controller implements Initializable {
                                 Number old_val, Number new_val) {
                 switch (new_val.intValue()) {
                     case 0:
-                        setUpCanvas(1.0);
+                        setUpCanvas(5);
                         break;
                     case 1:
-                        setUpCanvas(2.0);
+                        setUpCanvas(10);
                         break;
                     case 2:
-                        setUpCanvas(5.0);
+                        setUpCanvas(25);
                         break;
                     default:
-                        setUpCanvas(1.0);
+                        setUpCanvas(10);
                         break;
                 }
             }
         });
     }
 
-    private void configureBaseComponentOptions(Color userSelectedColor) {
-        baseComponentOptions = new ComponentOptions(canvas, userSelectedColor, scale);
+    private void configureBaseComponentOptions() {
+        baseComponentOptions = new ComponentOptions(canvas, colorPicker.getValue(), dotSize);
     }
 
-    private void setUpCanvas(double scale) {
-        this.scale = scale * 5;
+    private void setUpCanvas(int dotSize) {
+        this.dotSize = dotSize;
         fillCanvasBackground(null);
         drawCanvasGridLines(null);
         toggleGroup();
         canvasClick();
-        configureBaseComponentOptions(Color.YELLOWGREEN);
+        configureBaseComponentOptions();
+
     }
 
     private void toggleGroup() {
@@ -105,8 +129,8 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void say() {
-       System.out.println(toggleGroup.getSelectedToggle().getUserData().toString());
+    private void colorPickerSelection() {
+        baseComponentOptions.setColor(colorPicker.getValue());
     }
 
     /**
@@ -115,7 +139,9 @@ public class Controller implements Initializable {
      */
     @FXML
     private void fillCanvasBackground(Color fillColor) {
-        if (fillColor == null) { fillColor = Color.BLACK; }
+        if (fillColor == null) {
+            fillColor = Color.BLACK;
+        }
         canvas.getGraphicsContext2D().setFill(fillColor);
         canvas.getGraphicsContext2D().fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
@@ -124,37 +150,15 @@ public class Controller implements Initializable {
     private void drawCanvasGridLines(Color strokeColor) {
         if (strokeColor == null) { strokeColor = Color.GRAY; }
         canvas.getGraphicsContext2D().setStroke(strokeColor);
-        for (double i = 0.5; i < canvas.getHeight(); i += scale) {
-            //System.out.println(i + "                   " + (canvas.getHeight() / 2 + 0.5));
-            if (i == (canvas.getHeight() / 2 + 0.5) ) {
-                canvas.getGraphicsContext2D().setStroke(Color.TURQUOISE);
-                canvas.getGraphicsContext2D().strokeLine(i, 0.0, i, canvas.getHeight());
-                canvas.getGraphicsContext2D().strokeLine(0.0, i, canvas.getHeight(), i);
-                canvas.getGraphicsContext2D().setStroke(strokeColor);
-            } else {
-                canvas.getGraphicsContext2D().strokeLine(i, 0.0, i, canvas.getHeight());
-                canvas.getGraphicsContext2D().strokeLine(0.0, i, canvas.getHeight(), i);
-            }
-
+        for (double i = 0.5; i < canvas.getHeight(); i += dotSize) {
+            canvas.getGraphicsContext2D().strokeLine(i, 0.0, i, canvas.getHeight());
+            canvas.getGraphicsContext2D().strokeLine(0.0, i, canvas.getHeight(), i);
         }
     }
 
-    @FXML
-    private void canvasClick() {
-        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                        int mouseX = CartesianGrid.canvasToCartesianX((int)(e.getX()/scale));
-                        int mouseY = CartesianGrid.canvasToCartesianY((int)(e.getY()/scale));
-                        Dot dot2 = new Dot(baseComponentOptions, mouseX, mouseY);
-                        Dot dot1 = new Dot(baseComponentOptions, 0, 0);
-                        new Line(baseComponentOptions, dot1, dot2);
-                        //new Circle(baseComponentOptions, 20);
-                    }
-                });
-    }
-
+    /**
+     * Reset the canvas.
+     */
     @FXML
     private void clearCanvas() {
         fillCanvasBackground(null);

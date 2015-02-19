@@ -1,6 +1,5 @@
 package com.chadgolden.drawing;
 
-import com.chadgolden.util.CartesianGrid;
 import com.chadgolden.util.ComponentOptions;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
@@ -20,22 +19,13 @@ public class Dot extends Component {
         draw();
     }
 
-    public Dot(ComponentOptions componentOptions, int x, int y, int flag) {
+    public Dot(ComponentOptions componentOptions, int x, int y, boolean drawOnInitialization) {
         super(componentOptions);
         this.x = x;
         this.y = y;
-    }
-
-    public Dot(Canvas parentComponent, int x, int y, Color color, int scale) {
-        super(parentComponent, color, scale);
-        this.x = x;
-        this.y = y;
-        draw();
-    }
-
-    private void toCanvas() {
-        this.x = CartesianGrid.cartesianToCanvasX(this.x);
-        this.y = CartesianGrid.cartesianToCanvasY(this.y);
+        if (drawOnInitialization) {
+            draw();
+        }
     }
 
     @Override
