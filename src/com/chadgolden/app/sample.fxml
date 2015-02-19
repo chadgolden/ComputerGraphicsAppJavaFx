@@ -39,6 +39,7 @@
          <children>
             <Label layoutX="10.0" layoutY="17.0" text="Select Scale:" />
             <ChoiceBox fx:id="zoomBox" layoutX="100.0" layoutY="13.0" prefWidth="150.0" />
+            <Label fx:id="errorLabel" layoutX="10.0" layoutY="44.0" textFill="RED" />
          </children>
       </Pane>
       <Pane layoutY="25.0" prefHeight="575.0" prefWidth="100.0" style="-fx-background-color: lightgray;">
@@ -72,7 +73,17 @@
       </Pane>
       <Pane layoutX="600.0" layoutY="25.0" prefHeight="575.0" prefWidth="100.0" style="-fx-background-color: lightgray;">
          <children>
-            <Label layoutX="28.0" layoutY="14.0" text="Options:" />
+            <Label layoutX="28.0" layoutY="22.0" text="Options:" />
+            <Label fx:id="label1" layoutX="16.0" layoutY="51.0" text="Start x:" />
+            <TextField fx:id="textField1" layoutX="15.0" layoutY="68.0" prefHeight="25.0" prefWidth="71.0" />
+            <Label fx:id="selectionLabel" layoutX="28.0" layoutY="6.0" text="Dot" />
+            <TextField fx:id="textField2" layoutX="15.0" layoutY="116.0" prefHeight="25.0" prefWidth="71.0" />
+            <Label fx:id="label2" layoutX="16.0" layoutY="99.0" text="Start y:" />
+            <Button fx:id="optionSetButton" layoutX="15.0" layoutY="481.0" mnemonicParsing="false" onAction="#setOptionsButton" prefHeight="25.0" prefWidth="71.0" text="Set" />
+            <Label fx:id="label3" layoutX="16.0" layoutY="148.0" text="Start y:" />
+            <TextField fx:id="textField3" layoutX="15.0" layoutY="165.0" prefHeight="25.0" prefWidth="71.0" />
+            <Label fx:id="label4" layoutX="16.0" layoutY="196.0" text="Start y:" />
+            <TextField fx:id="textField4" layoutX="15.0" layoutY="213.0" prefHeight="25.0" prefWidth="71.0" />
          </children>
       </Pane>
    </children>

@@ -11,9 +11,9 @@ public class Polygon extends Component {
 
     public Polygon(ComponentOptions componentOptions, Dot... listOfDots) {
         super(componentOptions);
-        listOfDots[0] = new Dot(componentOptions, 10, 10);
-        listOfDots[1] = new Dot(componentOptions, 35, 35);
-        listOfDots[2] = new Dot(componentOptions, 35, 9);
+//        listOfDots[0] = new Dot(componentOptions, 10, 10);
+//        listOfDots[1] = new Dot(componentOptions, 35, 35);
+//        listOfDots[2] = new Dot(componentOptions, 35, 9);
         this.vertices = listOfDots;
         draw();
     }
