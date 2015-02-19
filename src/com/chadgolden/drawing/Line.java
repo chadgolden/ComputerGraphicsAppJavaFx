@@ -136,6 +136,8 @@ public class Line extends Component {
     }
 
     public void midpointScan(int octant) {
+        // Octants 2 and 6 need to treated slightly differently to render correctly.
+        if (octant == 2 || octant == 6) { midpointScan(octant, 0); }
         int dx = x1 - x0;
         int dy = y1 - y0;
         int d = 2 * dy - dx;
@@ -143,10 +145,9 @@ public class Line extends Component {
         int incrementNorthEast = 2 * (dy - dx);
         int x = x0;
         int y = y0;
-        System.out.printf("x=%d y=%d x1=%d\n", x, y, x1);
         do {
+            System.out.println(x);
             switchToOctantFrom(octant, x, y);
-            //System.out.println("Hi");
             if (d <= 0) { // Choose E.
                 x += 1;
                 d += incrementEast;
@@ -157,6 +158,27 @@ public class Line extends Component {
                 d += incrementNorthEast;
             }
         } while (x <= x1);
+    }
+
+    public void midpointScan(int octant, int flag) {
+        int dx = x1 - x0;
+        int dy = y1 - y0;
+        int d = 2 * dy - dx;
+        int incrementEast = 2 * dy;
+        int incrementNorthEast = 2 * (dy - dx);
+        int x = x0;
+        int y = y0;
+        do {
+            switchToOctantFrom(octant, x, y);
+            if (d >= 0) {
+                x++;
+                d += incrementEast;
+            } else {
+                x++;
+                y++;
+                d += incrementNorthEast;
+            }
+        } while (x <= -x1);
     }
 
     public void midpointScan(int x0, int y0, int x1, int y1) {

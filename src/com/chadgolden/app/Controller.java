@@ -141,7 +141,7 @@ public class Controller implements Initializable {
 
     @FXML
     private void canvasClick() {
-        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
+        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent e) {
