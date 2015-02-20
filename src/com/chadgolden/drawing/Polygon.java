@@ -9,8 +9,7 @@ public class Polygon extends Component {
 
     private Dot[] vertices;
 
-    public Polygon(ComponentOptions componentOptions, Dot... listOfDots) {
-        super(componentOptions);
+    public Polygon(Dot... listOfDots) {
 //        listOfDots[0] = new Dot(componentOptions, 10, 10);
 //        listOfDots[1] = new Dot(componentOptions, 35, 35);
 //        listOfDots[2] = new Dot(componentOptions, 35, 9);
@@ -20,9 +19,9 @@ public class Polygon extends Component {
 
     public void draw() {
         for (int i = 0; i < vertices.length - 1; i++) {
-            new Line(componentOptions, vertices[i], vertices[i + 1]);
+            new Line(vertices[i], vertices[i + 1]);
         }
-        new Line(componentOptions, vertices[vertices.length - 1], vertices[0]);
+        new Line(vertices[vertices.length - 1], vertices[0]);
     }
 
     @Override

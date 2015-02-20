@@ -12,15 +12,13 @@ public class Dot extends Component {
     private int x;
     private int y;
 
-    public Dot(ComponentOptions componentOptions, int x, int y) {
-        super(componentOptions);
+    public Dot(int x, int y) {
         this.x = x;
         this.y = y;
         draw();
     }
 
-    public Dot(ComponentOptions componentOptions, int x, int y, boolean drawOnInitialization) {
-        super(componentOptions);
+    public Dot(int x, int y, boolean drawOnInitialization) {
         this.x = x;
         this.y = y;
         if (drawOnInitialization) {

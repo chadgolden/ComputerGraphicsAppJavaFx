@@ -1,7 +1,5 @@
 package com.chadgolden.drawing;
 
-import com.chadgolden.util.ComponentOptions;
-
 /**
  * Created by Chad on 2/18/2015.
  */
@@ -10,8 +8,7 @@ public class Line extends Component {
     private Dot start;
     private Dot end;
 
-    public Line(ComponentOptions componentOptions, Dot start, Dot end) {
-        super(componentOptions);
+    public Line(Dot start, Dot end) {
         this.start = start;
         this.end = end;
         draw();
@@ -33,11 +30,11 @@ public class Line extends Component {
         int dy = Math.abs(y1 - y0);
         int sy = (y0 < y1) ? 1 : -1;
 
-        int error = (dx>dy ? dx : -dy)/2;
+        int error = ( (dx > dy) ? dx : -dy)/2;
         int error2;
 
         for(;;) {
-            new Dot(componentOptions, x0, y0);
+            new Dot(x0, y0);
             if (x0 == x1 && y0 == y1) {
                 break;
             }

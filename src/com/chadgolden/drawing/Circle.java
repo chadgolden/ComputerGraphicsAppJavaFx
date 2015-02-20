@@ -10,8 +10,7 @@ public class Circle extends Component {
     private Dot center;
     private int radius;
 
-    public Circle(ComponentOptions componentOptions, Dot center, int radius) {
-        super(componentOptions);
+    public Circle(Dot center, int radius) {
         this.center = center;
         this.radius = radius;
         draw();
@@ -25,10 +24,10 @@ public class Circle extends Component {
         int x = 0;
         int y = radius;
 
-        new Dot(componentOptions, center.getX(), center.getY() + radius);
-        new Dot(componentOptions, center.getX(), center.getY() - radius);
-        new Dot(componentOptions, center.getX() + radius, center.getY());
-        new Dot(componentOptions, center.getX() - radius, center.getY());
+        new Dot(center.getX(), center.getY() + radius);
+        new Dot(center.getX(), center.getY() - radius);
+        new Dot(center.getX() + radius, center.getY());
+        new Dot(center.getX() - radius, center.getY());
 
         while (x < y) {
             if (f >= 0) {
@@ -39,14 +38,14 @@ public class Circle extends Component {
             x++;
             ddF_x += 2;
             f += ddF_x + 1;
-            new Dot(componentOptions, center.getX() + x, center.getY() + y);
-            new Dot(componentOptions, center.getX() - x, center.getY() + y);
-            new Dot(componentOptions, center.getX() + x, center.getY() - y);
-            new Dot(componentOptions, center.getX() - x, center.getY() - y);
-            new Dot(componentOptions, center.getX() + y, center.getY() + x);
-            new Dot(componentOptions, center.getX() - y, center.getY() + x);
-            new Dot(componentOptions, center.getX() + y, center.getY() - x);
-            new Dot(componentOptions, center.getX() - y, center.getY() - x);
+            new Dot(center.getX() + x, center.getY() + y);
+            new Dot(center.getX() - x, center.getY() + y);
+            new Dot(center.getX() + x, center.getY() - y);
+            new Dot(center.getX() - x, center.getY() - y);
+            new Dot(center.getX() + y, center.getY() + x);
+            new Dot(center.getX() - y, center.getY() + x);
+            new Dot(center.getX() + y, center.getY() - x);
+            new Dot(center.getX() - y, center.getY() - x);
         }
     }
 }

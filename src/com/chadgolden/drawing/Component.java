@@ -7,10 +7,7 @@ import javafx.scene.paint.Color;
 
 public abstract class Component {
 
-    protected ComponentOptions componentOptions;
-
-    public Component(ComponentOptions componentOptions) {
-        this.componentOptions = componentOptions;
+    public Component() {
     }
 
     public abstract void midpointScan();
@@ -20,11 +17,16 @@ public abstract class Component {
     }
 
     public void writePixel(int x, int y) {
-        int dotSize = (int)componentOptions.getScale();
-        if (componentOptions.getColor() == null) { componentOptions.setColor(Color.WHITE); }
-        componentOptions.getParentComponent().getGraphicsContext2D().setFill(componentOptions.getColor());
-        componentOptions.getParentComponent().getGraphicsContext2D().fillRect(
-                x * dotSize, y * dotSize, dotSize, dotSize);
+        int dotSize = (int)ComponentOptions.getInstance().getScale();
+        if (ComponentOptions.getInstance().getColor() == null) {
+            ComponentOptions.getInstance().setColor(Color.WHITE);
+        }
+        ComponentOptions.getInstance().getParentComponent().getGraphicsContext2D().setFill(
+                ComponentOptions.getInstance().getColor()
+        );
+        ComponentOptions.getInstance().getParentComponent().getGraphicsContext2D().fillRect(
+                x * dotSize, y * dotSize, dotSize, dotSize
+        );
     }
 
 }

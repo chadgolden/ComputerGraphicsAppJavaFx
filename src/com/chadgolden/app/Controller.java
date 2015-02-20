@@ -87,9 +87,6 @@ public class Controller implements Initializable {
     /** Determines the scale and resolution of the canvas. */
     private int dotSize;
 
-    /** To contain base information (reference to canvas object, color, and scale. */
-    private ComponentOptions baseComponentOptions;
-
     /* Some options for shapes drawing derived from user input. */
     private Dot userOptionsDot;
     private int userCircleRadius;
@@ -130,34 +127,33 @@ public class Controller implements Initializable {
             int mouseX = (int) (e.getX() / dotSize);
             int mouseY = (int) (e.getY() / dotSize);
             Dot origin = userOptionsDot;
-            Dot mouse = new Dot(baseComponentOptions, mouseX, mouseY, false);
+            Dot mouse = new Dot(mouseX, mouseY, false);
 //                        new Line(baseComponentOptions, origin, mouse);
 //                        new NewCircle(baseComponentOptions, new Dot(baseComponentOptions, mouseX, mouseY, false), 5);
 //                        new Polygon(baseComponentOptions, new Dot[3]);
             System.out.println(getNameOfSelectedComponent());
             switch (getNameOfSelectedComponent()) {
                 case "Dot":
-                    new Dot(baseComponentOptions, mouseX, mouseY);
+                    new Dot(mouseX, mouseY);
                     break;
                 case "Line":
-                    new Line(baseComponentOptions, origin, mouse);
+                    new Line(origin, mouse);
                     break;
                 case "Circle":
-                    new Circle(baseComponentOptions, mouse, userCircleRadius);
+                    new Circle(mouse, userCircleRadius);
                     break;
                 case "Poly":
-                    Dot dot1 = new Dot(baseComponentOptions, 5, 10, false);
-                    Dot dot2 = new Dot(baseComponentOptions, 10, 12, false);
-                    Dot dot3 = new Dot(baseComponentOptions, 15, 5, false);
-                    Dot dot4 = new Dot(baseComponentOptions, 17, 10, false);
-                    Dot dot5 = new Dot(baseComponentOptions, 25, 10, false);
-                    Dot dot6 = new Dot(baseComponentOptions, 17, 15, false);
-                    Dot dot7 = new Dot(baseComponentOptions, 20, 20, false);
-                    Dot dot8 = new Dot(baseComponentOptions, 15, 15, false);
-                    Dot dot9 = new Dot(baseComponentOptions, 10, 20, false);
-                    Dot dot10 = new Dot(baseComponentOptions, 12, 15, false);
+                    Dot dot1 = new Dot(5, 10, false);
+                    Dot dot2 = new Dot(10, 12, false);
+                    Dot dot3 = new Dot(15, 5, false);
+                    Dot dot4 = new Dot(17, 10, false);
+                    Dot dot5 = new Dot(25, 10, false);
+                    Dot dot6 = new Dot(17, 15, false);
+                    Dot dot7 = new Dot(20, 20, false);
+                    Dot dot8 = new Dot(15, 15, false);
+                    Dot dot9 = new Dot(10, 20, false);
+                    Dot dot10 = new Dot(12, 15, false);
                     new Polygon(
-                            baseComponentOptions,
                             new Dot[] {
                                     dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8, dot9, dot10
                             }
@@ -171,8 +167,12 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Configures zoomBox. Adds the zoom options, selects the first option by default, and sets action on change.
+     */
     private void setUpZoomBox() {
         zoomBox.getItems().addAll("100%", "200%", "500%");
+        zoomBox.getSelectionModel().select(0);
         zoomBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
                                 Number old_val, Number new_val) {
@@ -195,16 +195,18 @@ public class Controller implements Initializable {
     }
 
     private void configureBaseComponentOptions() {
-        baseComponentOptions = new ComponentOptions(canvas, colorPicker.getValue(), dotSize);
+        ComponentOptions.getInstance().setParentComponent(canvas);
+        ComponentOptions.getInstance().setColor(colorPicker.getValue());
+        ComponentOptions.getInstance().setScale(dotSize);
     }
 
     private void setUpCanvas(int dotSize) {
         this.dotSize = dotSize;
         fillCanvasBackground(null);
         drawCanvasGridLines(null);
+        configureBaseComponentOptions();
         toggleGroup();
         canvasClick();
-        configureBaseComponentOptions();
         showErrorLabel("");
     }
 
@@ -233,7 +235,7 @@ public class Controller implements Initializable {
 
     @FXML
     private void colorPickerSelection() {
-        baseComponentOptions.setColor(colorPicker.getValue());
+        ComponentOptions.getInstance().setColor(colorPicker.getValue());
     }
 
     @FXML
@@ -308,7 +310,6 @@ public class Controller implements Initializable {
                 break;
             case "Line":
                 userOptionsDot = new Dot(
-                        baseComponentOptions,
                         Integer.parseInt(textField1.getText()),
                         Integer.parseInt(textField2.getText()),
                         false
