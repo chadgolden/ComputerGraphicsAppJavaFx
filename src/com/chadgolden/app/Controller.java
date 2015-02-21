@@ -143,21 +143,37 @@ public class Controller implements Initializable {
                     new Circle(mouse, userCircleRadius);
                     break;
                 case "Poly":
-                    Dot dot1 = new Dot(5, 10, false);
-                    Dot dot2 = new Dot(10, 12, false);
-                    Dot dot3 = new Dot(15, 5, false);
-                    Dot dot4 = new Dot(17, 10, false);
-                    Dot dot5 = new Dot(25, 10, false);
-                    Dot dot6 = new Dot(17, 15, false);
-                    Dot dot7 = new Dot(20, 20, false);
-                    Dot dot8 = new Dot(15, 15, false);
-                    Dot dot9 = new Dot(10, 20, false);
-                    Dot dot10 = new Dot(12, 15, false);
+//                    Dot dot1 = new Dot(0 * 3, 10 * 3, false);
+//                    Dot dot2 = new Dot(10 * 3, 10 * 3, false);
+//                    Dot dot3 = new Dot(12 * 3, 2 * 3, false);
+//                    Dot dot4 = new Dot(15 * 3, 10 * 3, false);
+//                    Dot dot5 = new Dot(25 * 3, 10 * 3, false);
+//                    Dot dot6 = new Dot(17 * 3, 15 * 3, false);
+//                    Dot dot7 = new Dot(20 * 3, 22 * 3, false);
+//                    Dot dot8 = new Dot(12 * 3, 17 * 3, false);
+//                    Dot dot9 = new Dot(5 * 3, 22 * 3, false);
+//                    Dot dot10 = new Dot(7 * 3, 15 * 3, false);
+//                    new Polygon(
+//                            new Dot[] {
+//                                    dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8, dot9, dot10
+//                            }
+//                    );
+                    Dot dot1 = new Dot(10, 10, false);
+                    Dot dot2 = new Dot(10, 16, false);
+                    Dot dot3 = new Dot(16, 20, false);
+                    Dot dot4 = new Dot(28, 10, false);
+                    Dot dot5 = new Dot(28, 16, false);
+                    Dot dot6 = new Dot(22, 10, false);
                     new Polygon(
-                            new Dot[] {
-                                    dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8, dot9, dot10
-                            }
+                            new Dot[] { dot1, dot2, dot3, dot4, dot5, dot6 }
                     );
+//                      Dot dot1 = new Dot(1, 1, false);
+//                    Dot dot2 = new Dot(20, 1, false);
+//                    Dot dot3 = new Dot(1, 20, false);
+//                    //Dot dot4 = new Dot(20, 20, false);
+//                    new Polygon(
+//                            new Dot[] {dot1, dot2, dot3}
+//                    );
                     break;
             }
             showErrorLabel("");

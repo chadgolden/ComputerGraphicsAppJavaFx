@@ -51,13 +51,67 @@ public class Line extends Component {
         }
     }
 
+    public Dot getStart() {
+        return start;
+    }
+
+    public Dot getEnd() {
+        return end;
+    }
+
+    public int yMin() {
+        if (start.getY() <= end.getY()) {
+            return start.getY();
+        } else {
+            return end.getY();
+        }
+    }
+
+    public int xMin() {
+        if (start.getX() <= end.getX()) {
+            return start.getX();
+        } else {
+            return end.getX();
+        }
+    }
+
+    public int yMax() {
+        if (start.getY() >= end.getY()) {
+            return start.getY();
+        } else {
+            return end.getY();
+        }
+    }
+
+    public int xMax() {
+        if (start.getX() >= end.getX()) {
+            return start.getX();
+        } else {
+            return end.getX();
+        }
+    }
+
+    public int getXAssociatedWithYMin() {
+        if (start.getY() == yMin()) {
+            return start.getX();
+        } else {
+            return end.getX();
+        }
+    }
+
     /**
      * @return The slope for the line.
      */
     public double getSlope() {
         int dx = end.getX() - start.getX();
         int dy = end.getY() - start.getY();
-        if (dx == 0) { return 0.0; }
+        if (dx == 0) { return 0; }
         return (double)dy/dx;
+    }
+
+    public double slopeInverse() {
+        double dx = end.getX() - start.getX();
+        double dy = end.getY() - start.getY();
+        return dx/dy;
     }
 }

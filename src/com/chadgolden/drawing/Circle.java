@@ -5,7 +5,7 @@ import com.chadgolden.util.ComponentOptions;
 /**
  * Created by Chad on 2/18/2015.
  */
-public class Circle extends Component {
+public class Circle extends Shape {
 
     private Dot center;
     private int radius;
@@ -47,5 +47,10 @@ public class Circle extends Component {
             new Dot(center.getX() + y, center.getY() - x);
             new Dot(center.getX() - y, center.getY() - x);
         }
+    }
+
+    @Override
+    public void fill() {
+
     }
 }
