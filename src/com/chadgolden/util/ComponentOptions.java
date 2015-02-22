@@ -1,6 +1,5 @@
 package com.chadgolden.util;
 
-import com.chadgolden.drawing.Component;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 

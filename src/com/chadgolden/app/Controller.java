@@ -37,7 +37,16 @@ public class Controller implements Initializable {
     private ToggleButton circleToggle;
 
     @FXML
-    private ToggleButton polygonToggle;
+    private ToggleButton starToggle;
+
+    @FXML
+    private ToggleButton octagonToggle;
+
+    @FXML
+    private ToggleButton fishToggle;
+
+    @FXML
+    private ToggleButton placeholderToggle;
 
     @FXML
     private ToggleButton fillToggle;
@@ -84,12 +93,16 @@ public class Controller implements Initializable {
     @FXML
     private Button optionSetButton;
 
+    @FXML
+    private Label mouseLabel;
+
     /** Determines the scale and resolution of the canvas. */
     private int dotSize;
 
     /* Some options for shapes drawing derived from user input. */
     private Dot userOptionsDot;
     private int userCircleRadius;
+    private double userPolygonScale;
 
     private String nameOfSelectedComponent;
 
@@ -118,12 +131,25 @@ public class Controller implements Initializable {
                         mouseEvent(e);
                     }
                 });
+        canvas.addEventHandler(MouseEvent.MOUSE_MOVED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        int mouseX = (int) (e.getX() / dotSize);
+                        int mouseY = (int) (e.getY() / dotSize);
+                        mouseLabel.setText(mouseX + " , " + mouseY);
+                    }
+                });
 
     }
 
     private void mouseEvent(MouseEvent e) {
         try {
             //setUpCanvas(dotSize);
+            boolean doFill = fillToggle.isSelected();
+            if (userCircleRadius == 0) userCircleRadius = 1;
+            if (userPolygonScale == 0.0) userPolygonScale = 1.0;
+            if (userOptionsDot == null) userOptionsDot = new Dot(0, 0, false);
             int mouseX = (int) (e.getX() / dotSize);
             int mouseY = (int) (e.getY() / dotSize);
             Dot origin = userOptionsDot;
@@ -131,7 +157,7 @@ public class Controller implements Initializable {
 //                        new Line(baseComponentOptions, origin, mouse);
 //                        new NewCircle(baseComponentOptions, new Dot(baseComponentOptions, mouseX, mouseY, false), 5);
 //                        new Polygon(baseComponentOptions, new Dot[3]);
-            System.out.println(getNameOfSelectedComponent());
+            //System.out.println(getNameOfSelectedComponent());
             switch (getNameOfSelectedComponent()) {
                 case "Dot":
                     new Dot(mouseX, mouseY);
@@ -142,39 +168,119 @@ public class Controller implements Initializable {
                 case "Circle":
                     new Circle(mouse, userCircleRadius);
                     break;
-                case "Poly":
-//                    Dot dot1 = new Dot(0 * 3, 10 * 3, false);
-//                    Dot dot2 = new Dot(10 * 3, 10 * 3, false);
-//                    Dot dot3 = new Dot(12 * 3, 2 * 3, false);
-//                    Dot dot4 = new Dot(15 * 3, 10 * 3, false);
-//                    Dot dot5 = new Dot(25 * 3, 10 * 3, false);
-//                    Dot dot6 = new Dot(17 * 3, 15 * 3, false);
-//                    Dot dot7 = new Dot(20 * 3, 22 * 3, false);
-//                    Dot dot8 = new Dot(12 * 3, 17 * 3, false);
-//                    Dot dot9 = new Dot(5 * 3, 22 * 3, false);
-//                    Dot dot10 = new Dot(7 * 3, 15 * 3, false);
-//                    new Polygon(
-//                            new Dot[] {
-//                                    dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8, dot9, dot10
-//                            }
-//                    );
-                    Dot dot1 = new Dot(10, 10, false);
-                    Dot dot2 = new Dot(10, 16, false);
-                    Dot dot3 = new Dot(16, 20, false);
-                    Dot dot4 = new Dot(28, 10, false);
-                    Dot dot5 = new Dot(28, 16, false);
-                    Dot dot6 = new Dot(22, 10, false);
-                    new Polygon(
-                            new Dot[] { dot1, dot2, dot3, dot4, dot5, dot6 }
+                case "Star":
+                    Dot dot1 = new Dot(
+                            (int)(userPolygonScale * 0) + mouseX - 12,
+                            (int)(userPolygonScale * 10) + mouseY - 11,
+                            false
                     );
+                    Dot dot2 = new Dot(
+                            (int)(userPolygonScale * 10) + mouseX - 12,
+                            (int)(userPolygonScale * 10) + mouseY - 11,
+                            false
+                    );
+                    Dot dot3 = new Dot(
+                            (int)(userPolygonScale * 12) + mouseX - 12,
+                            (int)(userPolygonScale * 2) + mouseY - 11,
+                            false
+                    );
+                    Dot dot4 = new Dot(
+                            (int)(userPolygonScale * 15) + mouseX - 12,
+                            (int)(userPolygonScale * 10) + mouseY - 11,
+                            false
+                    );
+                    Dot dot5 = new Dot(
+                            (int)(userPolygonScale * 25) + mouseX - 12,
+                            (int)(userPolygonScale * 10) + mouseY - 11,
+                            false
+                    );
+                    Dot dot6 = new Dot(
+                            (int)(userPolygonScale * 17) + mouseX - 12,
+                            (int)(userPolygonScale * 15) + mouseY - 11,
+                            false
+                    );
+                    Dot dot7 = new Dot(
+                            (int)(userPolygonScale * 20) + mouseX - 12,
+                            (int)(userPolygonScale * 22) + mouseY - 11,
+                            false
+                    );
+                    Dot dot8 = new Dot(
+                            (int)(userPolygonScale * 12) + mouseX - 12,
+                            (int)(userPolygonScale * 17) + mouseY - 11,
+                            false
+                    );
+                    Dot dot9 = new Dot(
+                            (int)(userPolygonScale * 5) + mouseX - 12,
+                            (int)(userPolygonScale * 22) + mouseY - 11,
+                            false
+                    );
+                    Dot dot10 = new Dot(
+                            (int)(userPolygonScale * 7) + mouseX - 12,
+                            (int)(userPolygonScale * 15) + mouseY - 11,
+                            false
+                    );
+                    new Polygon(
+                            doFill, // To draw or not to draw.
+                            new Dot[] {
+                                    dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8, dot9, dot10
+                            }
+                    );
+                    break;
+                case "Oct":
+                    dot1 = new Dot(10 + mouseX - 12, 5 + mouseY - 12, false);
+                    dot2 = new Dot(20 + mouseX - 12, 5 + mouseY - 12, false);
+                    dot3 = new Dot(25 + mouseX - 12, 15 + mouseY - 12, false);
+                    dot4 = new Dot(20 + mouseX - 12, 25 + mouseY  - 12, false);
+                    dot5 = new Dot(10 + mouseX  - 12, 25 + mouseY - 12, false);
+                    dot6 = new Dot(5 + mouseX - 12, 15 + mouseY - 12, false);
+                    new Polygon(
+                            true,
+                            new Dot[] {
+                                    dot1, dot2, dot3, dot4, dot5, dot6
+                            }
+                    );
+                    break;
+                case "Fish":
+                    dot1 = new Dot(12 - 12 + mouseX, 12 - 12 + mouseY, false);
+                    dot2 = new Dot(12 - 12 + mouseX, 18 - 12 + mouseY, false);
+                    dot3 = new Dot(18 - 12 + mouseX, 22 - 12 + mouseY, false);
+                    dot4 = new Dot(30 - 12 + mouseX, 12 - 12 + mouseY, false);
+                    dot5 = new Dot(30 - 12 + mouseX, 18 - 12 + mouseY, false);
+                    dot6 = new Dot(24 - 12 + mouseX, 12 - 12 + mouseY, false);
+                    new Polygon(
+                            true,
+                            new Dot[] {
+                                    dot1, dot2, dot3, dot4, dot5, dot6
+                            }
+                    );
+                    break;
+                    // Convex polygon
+//                    Dot dot1 = new Dot(10, 10, false);
+//                    Dot dot2 = new Dot(10, 16, false);
+//                    Dot dot3 = new Dot(16, 20, false);
+//                    Dot dot4 = new Dot(28, 10, false);
+//                    Dot dot5 = new Dot(28, 16, false);
+//                    Dot dot6 = new Dot(22, 10, false);
+//                    new Polygon( true,
+//                            new Dot[] { dot1, dot2, dot3, dot4, dot5, dot6 }
+//                    );
+//                    Square
 //                      Dot dot1 = new Dot(1, 1, false);
 //                    Dot dot2 = new Dot(20, 1, false);
 //                    Dot dot3 = new Dot(1, 20, false);
-//                    //Dot dot4 = new Dot(20, 20, false);
-//                    new Polygon(
+//                    Dot dot4 = new Dot(20, 20, false);
+//                    new Polygon( true,
+//                            new Dot[] {dot1, dot2, dot4, dot3}
+//                    );
+                    //Hexagon
+
+//                    Dot dot1 = new Dot(1, 1, false);
+//                    Dot dot2 = new Dot(20, 1, false);
+//                    Dot dot3 = new Dot(1, 20, false);
+//                    Polygon triangle = new Polygon( true,
 //                            new Dot[] {dot1, dot2, dot3}
 //                    );
-                    break;
+
             }
             showErrorLabel("");
         } catch (Exception ex) {
@@ -204,7 +310,6 @@ public class Controller implements Initializable {
                         break;
                     default:
                         setUpCanvas(10);
-                        break;
                 }
             }
         });
@@ -231,7 +336,7 @@ public class Controller implements Initializable {
      */
     private void toggleGroup() {
         toggleGroup = new ToggleGroup();
-        toggleGroup.getToggles().addAll(dotToggle, lineToggle, circleToggle, polygonToggle);
+        toggleGroup.getToggles().addAll(dotToggle, lineToggle, circleToggle, starToggle, octagonToggle, fishToggle);
 
         // "Dot" will be the selection by default.
         toggleGroup.selectToggle(dotToggle);
@@ -258,7 +363,6 @@ public class Controller implements Initializable {
     private void configureOptions(String name) {
         switch(name) {
             case "Dot":
-                System.out.println("Dot");
                 selectionLabel.setText("Dot");
                 label1.setText("N/A.");
                 label2.setVisible(false);
@@ -286,7 +390,6 @@ public class Controller implements Initializable {
                 System.out.println("Line");
                 break;
             case "Circle":
-                System.out.println("Circle");
                 label1.setText("Radius: ");
                 textField1.setText("5"); // Default
                 label1.setVisible(true);
@@ -299,17 +402,41 @@ public class Controller implements Initializable {
                 textField4.setVisible(false);
                 selectionLabel.setText("Circle");
                 break;
-            case "Poly":
-                System.out.println("Polygon");
-                label1.setText("N/A.");
+            case "Star":
+                label1.setText("Coefficient:");
                 label2.setVisible(false);
                 label3.setVisible(false);
                 label4.setVisible(false);
-                textField1.setVisible(false);
+                textField1.setVisible(true);
                 textField2.setVisible(false);
                 textField3.setVisible(false);
                 textField4.setVisible(false);
-                selectionLabel.setText("Polygon");
+                selectionLabel.setText("Star");
+                textField1.setText("1");
+                break;
+            case "Oct":
+                label1.setText("Coefficient:");
+                label2.setVisible(false);
+                label3.setVisible(false);
+                label4.setVisible(false);
+                textField1.setVisible(true);
+                textField2.setVisible(false);
+                textField3.setVisible(false);
+                textField4.setVisible(false);
+                selectionLabel.setText("Octagon");
+                textField1.setText("1");
+                break;
+            case "Fish":
+                label1.setText("Coefficient:");
+                label2.setVisible(false);
+                label3.setVisible(false);
+                label4.setVisible(false);
+                textField1.setVisible(true);
+                textField2.setVisible(false);
+                textField3.setVisible(false);
+                textField4.setVisible(false);
+                selectionLabel.setText("Fish");
+                textField1.setText("1");
                 break;
         }
     }
@@ -333,6 +460,9 @@ public class Controller implements Initializable {
                 break;
             case "Circle":
                 userCircleRadius = Integer.parseInt(textField1.getText());
+                break;
+            default:
+                userPolygonScale = Double.parseDouble(textField1.getText());
         }
     }
 

@@ -1,8 +1,6 @@
 package com.chadgolden.drawing;
 
-import com.chadgolden.app.Controller;
 import com.chadgolden.util.ComponentOptions;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
 public abstract class Component {

@@ -14,8 +14,17 @@ public class Line extends Component {
         draw();
     }
 
+    /** Constructs a line object from two Dot objects. Optionally draws the line. */
+    public Line(Dot start, Dot end, boolean wantToDraw) {
+        this.start = start;
+        this.end = end;
+        if (wantToDraw) {
+            draw();
+        }
+    }
+
     /**
-     * Bresenham's Line Algorithm that uses error calculation for x and y instead of reflections.
+     * Bresenham's Line Algorithm implementation. Uses error calculation to achieve slopes not within 0 <= m < 1.
      */
     @Override
     public void midpointScan() {
@@ -30,7 +39,7 @@ public class Line extends Component {
         int dy = Math.abs(y1 - y0);
         int sy = (y0 < y1) ? 1 : -1;
 
-        int error = ( (dx > dy) ? dx : -dy)/2;
+        int error = ((dx > dy) ? dx : -dy)/2;
         int error2;
 
         for(;;) {
@@ -51,10 +60,16 @@ public class Line extends Component {
         }
     }
 
+    /**
+     * @return The starting end point.
+     */
     public Dot getStart() {
         return start;
     }
 
+    /**
+     * @return The ending end point.
+     */
     public Dot getEnd() {
         return end;
     }
@@ -99,6 +114,27 @@ public class Line extends Component {
         }
     }
 
+    public int dx() {
+        return end.getX() - start.getX();
+    }
+
+    public int dy() {
+        return end.getY() - start.getY();
+    }
+
+    /**
+     * @return 1 for a positive slope, 0 for a zero slope, and -1 for a negative slope.
+     */
+    public int signOfSlope() {
+        if (getSlope() >= 1.0) {
+            return 1;
+        } else if (getSlope() == 0.0) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
     /**
      * @return The slope for the line.
      */
@@ -109,6 +145,9 @@ public class Line extends Component {
         return (double)dy/dx;
     }
 
+    /**
+     * @return dx/dy. e.g.: 1/m.
+     */
     public double slopeInverse() {
         double dx = end.getX() - start.getX();
         double dy = end.getY() - start.getY();
