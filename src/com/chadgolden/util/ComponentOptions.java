@@ -78,7 +78,7 @@ public class ComponentOptions {
     public Color[][] getDotMatrix() { return dotMatrix; }
 
     public void updateDotMatrix(Dot dot) {
-        if (dot.getX() < 0 || dot.getX() > 100 || dot.getY() < 0 || dot.getY() > 100) {
+        if (dot.getX() < 0 || dot.getX() >= 100 || dot.getY() < 0 || dot.getY() >= 100) {
             return;
         }
         dotMatrix[dot.getY()][dot.getX()] = this.color;

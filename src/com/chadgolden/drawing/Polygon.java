@@ -210,12 +210,14 @@ public class Polygon extends Shape {
                     }
                     // Check the x-values for the edges in the active EdgeTable.
                     // If an x-value matches the current position of x, then increase parity by 1.
+                    //boolean shouldSkip = false;
                     for (Edge activeEdge : active) {
                         int edgeValue = (int)Math.ceil(activeEdge.getXValue());
                         if (edgeValue == x && activeEdge.getYMin() != scanLine) {
                             parity++;
                         }
                     }
+
                     // If parity is odd, draw a pixel at x = current x-position and y = scan line.
                     if (parity % 2 != 0) {
                         numberOfDotsFilled++;
