@@ -108,6 +108,9 @@ public class Controller implements Initializable {
     @FXML
     private Button stopButton;
 
+    /** For animation. */
+    private Timeline timeline;
+
     /** Determines the scale and resolution of the canvas. */
     private int dotSize;
 
@@ -717,14 +720,13 @@ public class Controller implements Initializable {
     }
 
     private void animateLineScan(final String name) {
-        if (!SHOULD_PLAY_ANIMATION) {
-            return;
+        if (timeline != null) {
+            timeline.stop();
         }
-        Timeline tl = new Timeline();
-        tl.setCycleCount(1500);
-        KeyFrame lineScan = new KeyFrame(Duration.seconds(0.005),
+        timeline = new Timeline();
+        timeline.setCycleCount(4500);
+        KeyFrame lineScan = new KeyFrame(Duration.seconds(0.01),
                 new EventHandler<ActionEvent>() {
-
                     int numberOfPixels = 1;
                     int startMouseX = ComponentOptions.getInstance().getOffsetX();
                     int startMouseY = ComponentOptions.getInstance().getOffsetY();
@@ -877,13 +879,13 @@ public class Controller implements Initializable {
                         numberOfPixels++;
                     }
                 });
-        tl.getKeyFrames().add(lineScan);
-        tl.play();
+        timeline.getKeyFrames().add(lineScan);
+        timeline.play();
     }
 
     @FXML
     private void stopAnimation() {
-        SHOULD_PLAY_ANIMATION = false;
+        timeline.stop();
     }
 
 }
