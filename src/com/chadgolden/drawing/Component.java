@@ -25,6 +25,7 @@ public abstract class Component {
         ComponentOptions.getInstance().getParentComponent().getGraphicsContext2D().fillRect(
                 x * dotSize, y * dotSize, dotSize, dotSize
         );
+        ComponentOptions.getInstance().updateDotMatrix(new Dot(x, y, false));
     }
 
 }

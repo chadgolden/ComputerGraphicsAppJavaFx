@@ -2,9 +2,11 @@ package com.chadgolden.app;
 
 import com.chadgolden.drawing.*;
 import com.chadgolden.util.ComponentOptions;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +14,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -44,6 +47,9 @@ public class Controller implements Initializable {
 
     @FXML
     private ToggleButton fishToggle;
+
+    @FXML
+    private ToggleButton complexToggle;
 
     @FXML
     private ToggleButton placeholderToggle;
@@ -137,6 +143,8 @@ public class Controller implements Initializable {
                     public void handle(MouseEvent e) {
                         int mouseX = (int) (e.getX() / dotSize);
                         int mouseY = (int) (e.getY() / dotSize);
+                        ComponentOptions.getInstance().setOffsetX(mouseX);
+                        ComponentOptions.getInstance().setOffsetY(mouseY);
                         mouseLabel.setText(mouseX + " , " + mouseY);
                     }
                 });
@@ -145,13 +153,16 @@ public class Controller implements Initializable {
 
     private void mouseEvent(MouseEvent e) {
         try {
-            //setUpCanvas(dotSize);
+            //setUpCanvas(dotSize)
             boolean doFill = fillToggle.isSelected();
             if (userCircleRadius == 0) userCircleRadius = 1;
             if (userPolygonScale == 0.0) userPolygonScale = 1.0;
             if (userOptionsDot == null) userOptionsDot = new Dot(0, 0, false);
             int mouseX = (int) (e.getX() / dotSize);
             int mouseY = (int) (e.getY() / dotSize);
+            ComponentOptions.getInstance().setOffsetX(mouseX);
+            ComponentOptions.getInstance().setOffsetY(mouseY);
+            mouseLabel.setText(mouseX + " , " + mouseY);
             Dot origin = userOptionsDot;
             Dot mouse = new Dot(mouseX, mouseY, false);
 //                        new Line(baseComponentOptions, origin, mouse);
@@ -166,89 +177,132 @@ public class Controller implements Initializable {
                     new Line(origin, mouse);
                     break;
                 case "Circle":
-                    new Circle(mouse, userCircleRadius);
+                    new Circle(mouse, userCircleRadius, doFill);
                     break;
                 case "Star":
                     Dot dot1 = new Dot(
-                            (int)(userPolygonScale * 0) + mouseX - 12,
-                            (int)(userPolygonScale * 10) + mouseY - 11,
+                            (int)(userPolygonScale * 0),
+                            (int)(userPolygonScale * 10),
                             false
                     );
                     Dot dot2 = new Dot(
-                            (int)(userPolygonScale * 10) + mouseX - 12,
-                            (int)(userPolygonScale * 10) + mouseY - 11,
+                            (int)(userPolygonScale * 10),
+                            (int)(userPolygonScale * 10),
                             false
                     );
                     Dot dot3 = new Dot(
-                            (int)(userPolygonScale * 12) + mouseX - 12,
-                            (int)(userPolygonScale * 2) + mouseY - 11,
+                            (int)(userPolygonScale * 12),
+                            (int)(userPolygonScale * 2),
                             false
                     );
                     Dot dot4 = new Dot(
-                            (int)(userPolygonScale * 15) + mouseX - 12,
-                            (int)(userPolygonScale * 10) + mouseY - 11,
+                            (int)(userPolygonScale * 15),
+                            (int)(userPolygonScale * 10),
                             false
                     );
                     Dot dot5 = new Dot(
-                            (int)(userPolygonScale * 25) + mouseX - 12,
-                            (int)(userPolygonScale * 10) + mouseY - 11,
+                            (int)(userPolygonScale * 25),
+                            (int)(userPolygonScale * 10),
                             false
                     );
                     Dot dot6 = new Dot(
-                            (int)(userPolygonScale * 17) + mouseX - 12,
-                            (int)(userPolygonScale * 15) + mouseY - 11,
+                            (int)(userPolygonScale * 17),
+                            (int)(userPolygonScale * 15),
                             false
                     );
                     Dot dot7 = new Dot(
-                            (int)(userPolygonScale * 20) + mouseX - 12,
-                            (int)(userPolygonScale * 22) + mouseY - 11,
+                            (int)(userPolygonScale * 20),
+                            (int)(userPolygonScale * 22),
                             false
                     );
                     Dot dot8 = new Dot(
-                            (int)(userPolygonScale * 12) + mouseX - 12,
-                            (int)(userPolygonScale * 17) + mouseY - 11,
+                            (int)(userPolygonScale * 12),
+                            (int)(userPolygonScale * 17),
                             false
                     );
                     Dot dot9 = new Dot(
-                            (int)(userPolygonScale * 5) + mouseX - 12,
-                            (int)(userPolygonScale * 22) + mouseY - 11,
+                            (int)(userPolygonScale * 5),
+                            (int)(userPolygonScale * 22),
                             false
                     );
                     Dot dot10 = new Dot(
-                            (int)(userPolygonScale * 7) + mouseX - 12,
-                            (int)(userPolygonScale * 15) + mouseY - 11,
+                            (int)(userPolygonScale * 7),
+                            (int)(userPolygonScale * 15),
                             false
                     );
                     new Polygon(
-                            doFill, // To draw or not to draw.
+                            doFill, // To fill or not to fill.
                             new Dot[] {
                                     dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8, dot9, dot10
                             }
                     );
                     break;
                 case "Oct":
-                    dot1 = new Dot(10 + mouseX - 12, 5 + mouseY - 12, false);
-                    dot2 = new Dot(20 + mouseX - 12, 5 + mouseY - 12, false);
-                    dot3 = new Dot(25 + mouseX - 12, 15 + mouseY - 12, false);
-                    dot4 = new Dot(20 + mouseX - 12, 25 + mouseY  - 12, false);
-                    dot5 = new Dot(10 + mouseX  - 12, 25 + mouseY - 12, false);
-                    dot6 = new Dot(5 + mouseX - 12, 15 + mouseY - 12, false);
+//                    dot1 = new Dot(10 + mouseX - 12, 5 + mouseY - 12, false);
+//                    dot2 = new Dot(20 + mouseX - 12, 5 + mouseY - 12, false);
+//                    dot3 = new Dot(25 + mouseX - 12, 15 + mouseY - 12, false);
+//                    dot4 = new Dot(20 + mouseX - 12, 25 + mouseY  - 12, false);
+//                    dot5 = new Dot(10 + mouseX  - 12, 25 + mouseY - 12, false);
+//                    dot6 = new Dot(5 + mouseX - 12, 15 + mouseY - 12, false);
+
+                    dot1 = new Dot(
+                            43,
+                            17,
+                            false
+                    );
+                    dot2 = new Dot(
+                            33,
+                            7,
+                            false
+                    );
+                    dot3 = new Dot(
+                            17,
+                            7,
+                            false
+                    );
+                    dot4 = new Dot(
+                            7,
+                            17,
+                            false
+                    );
+                    dot5 = new Dot(
+                            7,
+                            33,
+                            false
+                    );
+                    dot6 = new Dot(
+                            17,
+                            43,
+                            false
+                    );
+                    dot7 = new Dot(
+                            33,
+                            43,
+                            false
+                    );
+                    dot8 = new Dot(
+                            43,
+                            33,
+                            false
+                    );
                     new Polygon(
-                            true,
+                            userPolygonScale,
+                            100,
                             new Dot[] {
-                                    dot1, dot2, dot3, dot4, dot5, dot6
+                                    dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8
                             }
                     );
                     break;
                 case "Fish":
-                    dot1 = new Dot(12 - 12 + mouseX, 12 - 12 + mouseY, false);
-                    dot2 = new Dot(12 - 12 + mouseX, 18 - 12 + mouseY, false);
-                    dot3 = new Dot(18 - 12 + mouseX, 22 - 12 + mouseY, false);
-                    dot4 = new Dot(30 - 12 + mouseX, 12 - 12 + mouseY, false);
-                    dot5 = new Dot(30 - 12 + mouseX, 18 - 12 + mouseY, false);
-                    dot6 = new Dot(24 - 12 + mouseX, 12 - 12 + mouseY, false);
+                    dot1 = new Dot(0, 0, false);
+                    dot2 = new Dot(0, 6, false);
+                    dot3 = new Dot(6, 10, false);
+                    dot4 = new Dot(18, 0, false);
+                    dot5 = new Dot(18, 6, false);
+                    dot6 = new Dot(12, 0, false);
                     new Polygon(
-                            true,
+                            doFill,
+                            userPolygonScale,
                             new Dot[] {
                                     dot1, dot2, dot3, dot4, dot5, dot6
                             }
@@ -280,6 +334,23 @@ public class Controller implements Initializable {
 //                    Polygon triangle = new Polygon( true,
 //                            new Dot[] {dot1, dot2, dot3}
 //                    );
+                case "?":
+                    if (e.getEventType().equals(MouseEvent.MOUSE_CLICKED)) {
+                        animateLineScan();
+                    }
+//                    dot1 = new Dot(0, 0, false);
+//                    dot2 = new Dot(10, 5, false);
+//                    dot3 = new Dot(15, 0, false);
+//                    dot4 = new Dot(20, 5, false);
+//                    dot5 = new Dot(15, 10, false);
+//                    dot6 = new Dot(20, 15, false);
+//                    dot7 = new Dot(15, 20, false);
+//                    dot8 = new Dot(15, 10, false);
+//                    dot9 = new Dot(10, 5, false);
+//                    dot10 = new Dot(10, 10, false);
+//                    Dot dot11 = new Dot(5, 10, false);
+//                    new Polygon(doFill, userPolygonScale,
+//                            dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8, dot9, dot10, dot11);
 
             }
             showErrorLabel("");
@@ -316,6 +387,7 @@ public class Controller implements Initializable {
     }
 
     private void configureBaseComponentOptions() {
+        ComponentOptions.getInstance().initializeDotMatrix();
         ComponentOptions.getInstance().setParentComponent(canvas);
         ComponentOptions.getInstance().setColor(colorPicker.getValue());
         ComponentOptions.getInstance().setScale(dotSize);
@@ -336,7 +408,8 @@ public class Controller implements Initializable {
      */
     private void toggleGroup() {
         toggleGroup = new ToggleGroup();
-        toggleGroup.getToggles().addAll(dotToggle, lineToggle, circleToggle, starToggle, octagonToggle, fishToggle);
+        toggleGroup.getToggles().addAll(dotToggle, lineToggle, circleToggle, starToggle, octagonToggle, fishToggle,
+                complexToggle);
 
         // "Dot" will be the selection by default.
         toggleGroup.selectToggle(dotToggle);
@@ -438,6 +511,18 @@ public class Controller implements Initializable {
                 selectionLabel.setText("Fish");
                 textField1.setText("1");
                 break;
+            case "?":
+                label1.setText("Coefficient:");
+                label2.setVisible(false);
+                label3.setVisible(false);
+                label4.setVisible(false);
+                textField1.setVisible(true);
+                textField2.setVisible(false);
+                textField3.setVisible(false);
+                textField4.setVisible(false);
+                selectionLabel.setText("Complex");
+                textField1.setText("1");
+                break;
         }
     }
 
@@ -515,4 +600,39 @@ public class Controller implements Initializable {
         errorLabel.setVisible(true);
         errorLabel.setText(text);
     }
+
+    private void animateLineScan() {
+        Timeline tl = new Timeline();
+        tl.setCycleCount(2500);
+        KeyFrame lineScan = new KeyFrame(Duration.seconds(0.005),
+                new EventHandler<ActionEvent>() {
+                    int numberOfPixels = 1;
+                    int startMouseX = ComponentOptions.getInstance().getOffsetX();
+                    int startMouseY = ComponentOptions.getInstance().getOffsetY();
+                    public void handle(ActionEvent event) {
+                        ComponentOptions.getInstance().setOffsetX(startMouseX);
+                        ComponentOptions.getInstance().setOffsetY(startMouseY);
+                        Dot dot1 = new Dot(0, 0, false);
+                        Dot dot2 = new Dot(10, 5, false);
+                        Dot dot3 = new Dot(15, 0, false);
+                        Dot dot4 = new Dot(20, 5, false);
+                        Dot dot5 = new Dot(15, 10, false);
+                        Dot dot6 = new Dot(20, 15, false);
+                        Dot dot7 = new Dot(15, 20, false);
+                        Dot dot8 = new Dot(15, 10, false);
+                        Dot dot9 = new Dot(10, 5, false);
+                        Dot dot10 = new Dot(10, 10, false);
+                        Dot dot11 = new Dot(5, 10, false);
+                        new Polygon(
+                                userPolygonScale,
+                                numberOfPixels,
+                                dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8, dot9, dot10, dot11
+                        );
+                        numberOfPixels++;
+                    }
+                });
+        tl.getKeyFrames().add(lineScan);
+        tl.play();
+    }
+
 }

@@ -1,9 +1,5 @@
 package com.chadgolden.drawing;
 
-import com.chadgolden.util.ComponentOptions;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.paint.Color;
-
 /**
  * Created by Chad on 2/16/2015.
  */
@@ -38,4 +34,9 @@ public class Dot extends Component {
     public int getY() {
         return y;
     }
+
+    public void setX(int x) { this.x = x; }
+
+    public void setY(int y) { this.y = y; }
+
 }

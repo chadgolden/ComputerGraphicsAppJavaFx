@@ -80,6 +80,11 @@
                   <Font size="10.0" />
                </font>
             </ToggleButton>
+            <ToggleButton fx:id="complexToggle" layoutX="8.0" layoutY="168.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" text="?">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </ToggleButton>
          </children>
       </Pane>
       <Pane layoutX="600.0" layoutY="25.0" prefHeight="575.0" prefWidth="100.0" style="-fx-background-color: lightgray;">

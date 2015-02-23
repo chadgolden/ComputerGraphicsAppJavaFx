@@ -16,6 +16,15 @@ public class Circle extends Shape {
         draw();
     }
 
+    public Circle(Dot center, int radius, boolean wantToFill) {
+        this.center = center;
+        this.radius = radius;
+        if (wantToFill) {
+            fill();
+        }
+        draw();
+    }
+
     @Override
     public void midpointScan() {
         int f = 1 - radius;
@@ -51,6 +60,38 @@ public class Circle extends Shape {
 
     @Override
     public void fill() {
+        int d = (5 - radius * 4) / 4;
+        int x = 0;
+        int y = radius;
 
+        do {
+           // new Line(center, new Dot(center.getX() + x, center.getY() + y));
+            new Line(new Dot(center.getX() + x - 2, center.getY() + y), new Dot(center.getX() - x + 2, center.getY() + y));
+            new Line(new Dot(center.getX() - x + 2, center.getY() - y), new Dot(center.getX() + x - 2, center.getY() - y));
+            new Line(new Dot(center.getX() + y - 1, center.getY() + x), new Dot(center.getX() - y + 1, center.getY() + x));
+            new Line(new Dot(center.getX() - y + 1, center.getY() - x), new Dot(center.getX() + y - 1, center.getY() - x));
+//            new Line(center, new Dot(center.getX() + x, center.getY() - y));
+//            new Line(center, new Dot(center.getX() - x, center.getY() + y));
+//            new Line(center, new Dot(center.getX() - x, center.getY() - y));
+//            new Line(center, new Dot(center.getX() + y, center.getY() + x));
+//            new Line(center, new Dot(center.getX() + y, center.getY() - x));
+//            new Line(center, new Dot(center.getX() - y, center.getY() + x));
+//            new Line(center, new Dot(center.getX() - y, center.getY() - x));
+//            image.setPixel(centerX + x, centerY + y);
+//            image.setPixel(centerX + x, centerY - y);
+//            image.setPixel(centerX - x, centerY + y);
+//            image.setPixel(centerX - x, centerY - y);
+//            image.setPixel(centerX + y, centerY + x);
+//            image.setPixel(centerX + y, centerY - x);
+//            image.setPixel(centerX - y, centerY + x);
+//            image.setPixel(centerX - y, centerY - x);
+            if (d < 0) {
+                d += 2 * x + 1;
+            } else {
+                d += 2 * (x - y) + 1;
+                y--;
+            }
+            x++;
+        } while (x <= y);
     }
 }
