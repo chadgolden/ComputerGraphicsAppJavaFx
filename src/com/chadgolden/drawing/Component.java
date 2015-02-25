@@ -14,6 +14,8 @@ public abstract class Component {
         midpointScan();
     }
 
+    public void draw(boolean isDrawn) { if (isDrawn) midpointScan();}
+
     public void writePixel(int x, int y) {
         int dotSize = (int)ComponentOptions.getInstance().getScale();
         if (ComponentOptions.getInstance().getColor() == null) {
@@ -26,6 +28,22 @@ public abstract class Component {
                 x * dotSize, y * dotSize, dotSize, dotSize
         );
         ComponentOptions.getInstance().updateDotMatrix(new Dot(x, y, false));
+    }
+
+    public void writePixel(int x, int y, boolean isDrawn) {
+        int dotSize = (int)ComponentOptions.getInstance().getScale();
+        if (ComponentOptions.getInstance().getColor() == null) {
+            ComponentOptions.getInstance().setColor(Color.WHITE);
+        }
+        ComponentOptions.getInstance().getParentComponent().getGraphicsContext2D().setFill(
+                ComponentOptions.getInstance().getColor()
+        );
+        ComponentOptions.getInstance().getParentComponent().getGraphicsContext2D().fillRect(
+                x * dotSize, y * dotSize, dotSize, dotSize
+        );
+        if (isDrawn) {
+            ComponentOptions.getInstance().updateDotMatrix(new Dot(x, y, false));
+        }
     }
 
 }

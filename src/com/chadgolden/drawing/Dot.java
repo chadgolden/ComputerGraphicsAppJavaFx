@@ -18,7 +18,7 @@ public class Dot extends Component {
         this.x = x;
         this.y = y;
         if (drawOnInitialization) {
-            draw();
+            draw(drawOnInitialization);
         }
     }
 
@@ -26,6 +26,8 @@ public class Dot extends Component {
     public void midpointScan() {
         writePixel(x, y);
     }
+
+    public void midpointScan(boolean isDrawn) { writePixel(x, y, isDrawn); }
 
     public int getX() {
         return x;

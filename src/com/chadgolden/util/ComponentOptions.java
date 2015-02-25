@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 /**
- * Allows for single global access to canvas, color, and scale references.
+ * Allows for single global access to the canvas, color, frame buffer, and mouse information.
  * Created by Chad on 2/16/2015.
  */
 public class ComponentOptions {
@@ -26,7 +26,7 @@ public class ComponentOptions {
     private ComponentOptions() {
     }
 
-    public static ComponentOptions getInstance() {
+    public static synchronized ComponentOptions getInstance() {
         if (singletonInstance == null) {
             singletonInstance = new ComponentOptions();
             singletonInstance.initializeDotMatrix();
@@ -77,6 +77,29 @@ public class ComponentOptions {
 
     public Color[][] getDotMatrix() { return dotMatrix; }
 
+    /**
+     * Returns the Color object at the x and y coordinates of a point in the dot matrix/frame buffer.
+     * @param x
+     * @param y
+     * @return The specified Color from the dot matrix.
+     */
+    public Color getColorFromDotMatrix(int x, int y) {
+        if (x < 0) {
+            x = 0;
+        } else if (x >= 100) {
+            x = 99;
+        } else if (y < 0) {
+            y = 0;
+        } else if (y >= 100) {
+            y = 99;
+        }
+        return dotMatrix[y][x];
+    }
+
+    /**
+     * Update the dot matrix with the current color at the specified point.
+     * @param dot
+     */
     public void updateDotMatrix(Dot dot) {
         if (dot.getX() < 0 || dot.getX() >= 100 || dot.getY() < 0 || dot.getY() >= 100) {
             return;
@@ -84,6 +107,9 @@ public class ComponentOptions {
         dotMatrix[dot.getY()][dot.getX()] = this.color;
     }
 
+    /**
+     * Prints a matrix of 0s and 1s to the console that represent the current frame buffer.
+     */
     public void printBinaryDotMatrix() {
         for (int i = 0; i < dotMatrix.length; i++) {
             for (int j = 0; j < dotMatrix[i].length; j++) {
@@ -99,7 +125,7 @@ public class ComponentOptions {
     }
 
     /**
-     * Testing.
+     * For testing.
      * @param args
      */
     public static void main(String[] args) {

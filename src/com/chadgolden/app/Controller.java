@@ -103,6 +103,9 @@ public class Controller implements Initializable {
     private ToggleButton playButton;
 
     @FXML
+    private ToggleButton bucketToggle;
+
+    @FXML
     private Label mouseLabel;
 
     @FXML
@@ -180,6 +183,9 @@ public class Controller implements Initializable {
 //                        new NewCircle(baseComponentOptions, new Dot(baseComponentOptions, mouseX, mouseY, false), 5);
 //                        new Polygon(baseComponentOptions, new Dot[3]);
             //System.out.println(getNameOfSelectedComponent());
+            if (bucketToggle.isSelected()) {
+                bucketFill();
+            }
             switch (getNameOfSelectedComponent()) {
                 case "Dot":
                     new Dot(mouseX, mouseY);
@@ -310,7 +316,7 @@ public class Controller implements Initializable {
                             new Dot[] {
                                     dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8
                             }
-                    );
+                    ).floodFill(new Dot(mouseX, mouseY, false), ComponentOptions.getInstance().getColorFromDotMatrix(mouseX, mouseY));
                     break;
                 case "Fish":
                     if (playButton.isSelected()) {
@@ -433,7 +439,7 @@ public class Controller implements Initializable {
     private void toggleGroup() {
         toggleGroup = new ToggleGroup();
         toggleGroup.getToggles().addAll(dotToggle, lineToggle, circleToggle, starToggle, octagonToggle, fishToggle,
-                complexToggle);
+                complexToggle, bucketToggle);
 
         // "Dot" will be the selection by default.
         toggleGroup.selectToggle(dotToggle);
@@ -605,6 +611,7 @@ public class Controller implements Initializable {
     private void clearCanvas() {
         fillCanvasBackground(null);
         drawCanvasGridLines(null);
+        ComponentOptions.getInstance().initializeDotMatrix();
     }
 
     /**
@@ -886,6 +893,17 @@ public class Controller implements Initializable {
     @FXML
     private void stopAnimation() {
         timeline.stop();
+    }
+
+    private void bucketFill() {
+        int mouseX = ComponentOptions.getInstance().getOffsetX();
+        int mouseY = ComponentOptions.getInstance().getOffsetY();
+
+        Shape.floodFill(
+                new Dot(mouseX, mouseY, false),
+                ComponentOptions.getInstance().getColorFromDotMatrix(mouseX, mouseY),
+                colorPicker.getValue()
+        );
     }
 
 }
